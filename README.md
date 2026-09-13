@@ -95,6 +95,8 @@ them looking like one set:
 python3 tools/generate_images.py
 ```
 
+![All fifty pictures](docs/all-pictures.png)
+
 To look at them all at once:
 
 ```bash
