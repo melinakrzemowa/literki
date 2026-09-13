@@ -16,7 +16,8 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 
-from svg_kit import circle, ellipse, group, line, path, poly, rect, ring, star_points, svg
+from svg_kit import (circle, ellipse, group, line, path, poly, rect, ring, spiral,
+                     star_points, svg)
 
 OUT = pathlib.Path(__file__).resolve().parent.parent / "assets" / "images"
 
@@ -32,6 +33,11 @@ BACKGROUNDS = {
     "banana": "#d6ecf7", "cake": "#ffe4f0", "milk": "#e9f3fb", "egg": "#cfe1f5",
     "heart": "#ffe0e6", "key": "#efe7d2", "book": "#e4edf8", "shoe": "#e9e9ef",
     "hat": "#dbe9f7", "clock": "#f3e7d9",
+    "horse": "#f2e6d2", "pig": "#ffe6ee", "sheep": "#e7f0df", "rabbit": "#f6eddf",
+    "fox": "#ffeadb", "turtle": "#dcf0e7", "snail": "#eff4da", "bread": "#f7ede1",
+    "cheese": "#fff4d2", "carrot": "#e9f3de", "pear": "#eff7e1", "lemon": "#e9f4f9",
+    "chair": "#efe9f5", "table": "#f3ede3", "bed": "#e7effb", "lamp": "#fdf1da",
+    "door": "#eae3d7", "bike": "#e5eff3", "train": "#e9e5f3", "leaf": "#ebf5db",
 }
 
 DRAWINGS = {}
@@ -476,6 +482,291 @@ def clock():
         + circle(128, 130, 10, "#e74c3c")
         + poly([(62, 52), (94, 30), (98, 62)], "#4d6a8a")
         + poly([(194, 52), (162, 30), (158, 62)], "#4d6a8a")
+    )
+
+
+# ------------------------------------------------------- more animals ---
+
+@drawing("horse")
+def horse():
+    return (
+        poly([(96, 62), (88, 22), (122, 52)], "#8b5a2b")
+        + poly([(160, 62), (168, 22), (134, 52)], "#8b5a2b")
+        + path("M62 60 Q44 130 62 190 L96 180 Q86 120 96 66 Z", "#5c3a1e")
+        + ellipse(132, 130, 56, 70, "#a9703f")
+        + ellipse(140, 186, 34, 30, "#d9a066")
+        + ellipse(128, 182, 7, 9, "#5c3a1e") + ellipse(154, 182, 7, 9, "#5c3a1e")
+        + eyes(106, 162, 108)
+        + circle(102, 104, 4, WHITE) + circle(158, 104, 4, WHITE)
+    )
+
+
+@drawing("pig")
+def pig():
+    return (
+        poly([(74, 84), (66, 42), (110, 66)], "#f2a0b8")
+        + poly([(182, 84), (190, 42), (146, 66)], "#f2a0b8")
+        + circle(128, 136, 66, "#f7b3c6")
+        + ellipse(128, 162, 40, 30, "#f2a0b8")
+        + ellipse(114, 160, 8, 11, "#d97f9c") + ellipse(142, 160, 8, 11, "#d97f9c")
+        + eyes(104, 152, 114)
+        + circle(100, 110, 3, WHITE) + circle(148, 110, 3, WHITE)
+    )
+
+
+@drawing("sheep")
+def sheep():
+    # The head has to sit clear of the fleece and read as a face, or the whole
+    # thing is a cloud on legs.
+    fleece = "".join(
+        circle(x, y, 32, "#fbf7f0")
+        for x, y in [(112, 116), (156, 108), (192, 130), (196, 166), (116, 170), (158, 176)]
+    )
+    return (
+        line(120, 190, 120, 222, "#6b5a4e", 12) + line(154, 194, 154, 224, "#6b5a4e", 12)
+        + line(188, 190, 188, 222, "#6b5a4e", 12)
+        + fleece
+        + rect(104, 116, 96, 68, "#fbf7f0", r=34)
+        + ellipse(46, 130, 22, 15, "#5d4d43", rot=(-30, 46, 130))
+        + ellipse(96, 126, 22, 15, "#5d4d43", rot=(30, 96, 126))
+        + ellipse(70, 158, 38, 42, "#6b5a4e")
+        + path("M40 138 Q70 118 100 138 Q92 150 70 150 Q48 150 40 138 Z", "#fbf7f0")
+        + circle(56, 152, 7, INK) + circle(84, 152, 7, INK)
+        + ellipse(70, 180, 13, 9, "#4a3d35")
+        + line(120, 200, 120, 222, "#6b5a4e", 12)
+    )
+
+
+@drawing("rabbit")
+def rabbit():
+    return (
+        ellipse(100, 64, 19, 52, "#d8d2cc", rot=(-10, 100, 64))
+        + ellipse(158, 64, 19, 52, "#d8d2cc", rot=(10, 158, 64))
+        + ellipse(100, 68, 10, 36, "#f2b8c6", rot=(-10, 100, 68))
+        + ellipse(158, 68, 10, 36, "#f2b8c6", rot=(10, 158, 68))
+        + circle(128, 158, 58, "#e4ded8")
+        + eyes(106, 150, 150, 9)
+        + ellipse(128, 176, 12, 9, "#f2b8c6")
+        + smile("M128 185 L128 192 M128 192 Q116 202 106 192 M128 192 Q140 202 150 192", 5)
+        + line(38, 176, 92, 180, INK, 4) + line(42, 194, 94, 188, INK, 4)
+        + line(218, 176, 164, 180, INK, 4) + line(214, 194, 162, 188, INK, 4)
+    )
+
+
+@drawing("fox")
+def fox():
+    return (
+        poly([(66, 116), (58, 40), (116, 80)], "#e8722c")
+        + poly([(190, 116), (198, 40), (140, 80)], "#e8722c")
+        + poly([(70, 104), (64, 56), (106, 82)], "#3d2b23")
+        + poly([(186, 104), (192, 56), (150, 82)], "#3d2b23")
+        + path("M128 82 Q196 92 186 140 Q176 186 128 206 Q80 186 70 140 Q60 92 128 82 Z", "#f0823a")
+        + path("M128 124 Q168 132 158 166 Q146 196 128 206 Q110 196 98 166 Q88 132 128 124 Z", "#fbf3ea")
+        + eyes(104, 152, 128, 9)
+        + ellipse(128, 168, 12, 9, INK)
+    )
+
+
+@drawing("turtle")
+def turtle():
+    # The plates need real contrast and visible gaps, otherwise the shell just
+    # reads as a green circle.
+    plates = ring(128, 132, 40, 6, lambda x, y, a: circle(x, y, 17, "#3f7a30"))
+    return (
+        ellipse(58, 180, 26, 17, "#8fcf72", rot=(-25, 58, 180))
+        + ellipse(198, 180, 26, 17, "#8fcf72", rot=(25, 198, 180))
+        + ellipse(56, 90, 24, 16, "#8fcf72", rot=(25, 56, 90))
+        + ellipse(200, 90, 24, 16, "#8fcf72", rot=(-25, 200, 90))
+        + circle(214, 132, 30, "#8fcf72")
+        + circle(226, 124, 6, INK)
+        + smile("M214 146 Q226 154 236 146", 5)
+        + circle(128, 132, 80, "#2f5f24")
+        + circle(128, 132, 70, "#7cb85f")
+        + plates
+        + circle(128, 132, 20, "#3f7a30")
+    )
+
+
+@drawing("snail")
+def snail():
+    return (
+        path("M36 196 Q40 158 84 156 L176 156 Q210 158 210 196 Z", "#e8c9a0")
+        + ellipse(124, 196, 96, 16, "#dcb98c")
+        + path(spiral(112, 128, 8, 60, 2.4), stroke="#c98b3a", sw=17)
+        + path(spiral(112, 128, 8, 60, 2.4), stroke="#f0b429", sw=9)
+        + line(190, 156, 206, 108, "#e8c9a0", 9)
+        + line(210, 158, 232, 120, "#e8c9a0", 9)
+        + circle(206, 102, 9, INK) + circle(234, 114, 9, INK)
+    )
+
+
+# ---------------------------------------------------------- more food ---
+
+@drawing("bread")
+def bread():
+    return (
+        path("M40 196 L40 122 Q40 62 128 62 Q216 62 216 122 L216 196 Z", "#c98b3a")
+        + path("M56 190 L56 126 Q56 80 128 80 Q200 80 200 126 L200 190 Z", "#e8b56b")
+        + path("M78 108 Q98 88 118 104", stroke="#c98b3a", sw=8)
+        + path("M138 104 Q158 88 178 106", stroke="#c98b3a", sw=8)
+        + rect(36, 190, 184, 18, "#a9703f", r=9)
+    )
+
+
+@drawing("cheese")
+def cheese():
+    return (
+        poly([(34, 174), (34, 120), (216, 74), (216, 128)], "#e8a800")
+        + poly([(34, 120), (216, 74), (216, 128), (34, 174)], "#ffd93d")
+        + poly([(34, 120), (216, 74), (196, 62), (54, 106)], "#ffe88a")
+        + circle(84, 138, 15, "#e8a800") + circle(140, 118, 11, "#e8a800")
+        + circle(184, 110, 13, "#e8a800") + circle(112, 156, 9, "#e8a800")
+    )
+
+
+@drawing("carrot")
+def carrot():
+    return (
+        path("M100 70 Q92 26 64 22 Q66 56 94 74 Z", "#4caf50")
+        + path("M128 66 Q128 20 128 14 Q152 34 146 70 Z", "#43a047")
+        + path("M156 70 Q166 28 194 24 Q190 58 162 76 Z", "#4caf50")
+        + path("M92 78 L164 78 Q152 190 128 224 Q104 190 92 78 Z", "#f4913e")
+        + line(104, 108, 148, 104, "#e07b39", 6)
+        + line(110, 140, 144, 136, "#e07b39", 6)
+        + line(116, 172, 140, 170, "#e07b39", 6)
+    )
+
+
+@drawing("pear")
+def pear():
+    return (
+        rect(124, 34, 9, 40, "#8b5a2b", r=5, rot=(10, 128, 54))
+        + ellipse(162, 52, 26, 14, "#4caf50", rot=(-24, 162, 52))
+        + circle(128, 162, 60, "#a4c93a")
+        + ellipse(128, 96, 34, 40, "#a4c93a")
+        + ellipse(106, 140, 15, 22, "#c3de65", rot=(-18, 106, 140), opacity=0.7)
+    )
+
+
+@drawing("lemon")
+def lemon():
+    return (
+        path("M26 128 Q40 68 128 68 Q216 68 230 128 Q216 188 128 188 Q40 188 26 128 Z", "#ffd93d")
+        + ellipse(94, 106, 22, 12, "#ffe88a", rot=(-16, 94, 106))
+        + ellipse(206, 76, 26, 14, "#4caf50", rot=(-28, 206, 76))
+        + circle(26, 128, 8, "#f0c419") + circle(230, 128, 8, "#f0c419")
+    )
+
+
+# ------------------------------------------------------- around a room ---
+
+@drawing("chair")
+def chair():
+    return (
+        rect(74, 30, 110, 116, "#a9703f", r=14)
+        + rect(88, 48, 82, 80, "#c98b3a", r=10)
+        + rect(58, 132, 142, 26, "#8b5a2b", r=10)
+        + rect(70, 152, 18, 76, "#a9703f", r=8)
+        + rect(170, 152, 18, 76, "#a9703f", r=8)
+        + rect(70, 196, 118, 12, "#8b5a2b", r=6)
+    )
+
+
+@drawing("table")
+def table():
+    return (
+        rect(24, 92, 208, 28, "#c98b3a", r=12)
+        + rect(24, 114, 208, 12, "#a9703f", r=6)
+        + rect(52, 124, 20, 104, "#a9703f", r=8)
+        + rect(184, 124, 20, 104, "#a9703f", r=8)
+        + rect(52, 160, 152, 12, "#8b5a2b", r=6)
+    )
+
+
+@drawing("bed")
+def bed():
+    return (
+        rect(24, 70, 40, 150, "#8b5a2b", r=12)
+        + rect(200, 124, 32, 96, "#8b5a2b", r=12)
+        + rect(36, 148, 190, 44, "#f7f3ea", r=14)
+        + path("M108 148 L226 148 Q226 192 210 192 L108 192 Z", "#4d9de0")
+        + path("M108 148 L134 148 L134 192 L108 192 Z", "#7fc0ec")
+        + rect(54, 118, 62, 38, WHITE, r=16, rot=(-6, 84, 136))
+        + rect(36, 186, 190, 14, "#c98b3a", r=7)
+    )
+
+
+@drawing("lamp")
+def lamp():
+    return (
+        poly([(76, 132), (180, 132), (200, 60), (56, 60)], "#f0b429")
+        + poly([(76, 132), (180, 132), (170, 148), (86, 148)], "#e8a800")
+        + rect(120, 148, 16, 66, "#6b5a4e", r=6)
+        + ellipse(128, 220, 54, 14, "#5d4d43")
+        + circle(128, 100, 22, "#ffe88a", opacity=0.7)
+    )
+
+
+@drawing("door")
+def door():
+    return (
+        rect(44, 26, 168, 206, "#a9703f", r=10)
+        + rect(60, 42, 136, 190, "#c98b3a", r=6)
+        + rect(78, 60, 100, 62, "#8b5a2b", r=6)
+        + rect(90, 72, 76, 38, "#e8b56b", r=4)
+        + rect(78, 140, 100, 76, "#8b5a2b", r=6)
+        + rect(90, 152, 76, 52, "#e8b56b", r=4)
+        + circle(174, 134, 11, "#f0b429")
+    )
+
+
+# --------------------------------------------------- getting about ---
+
+@drawing("bike")
+def bike():
+    wheel = lambda cx: (
+        circle(cx, 160, 52, "none", stroke="#3d4a5c", sw=10)
+        + ring(cx, 160, 40, 8, lambda x, y, a: line(cx, 160, x, y, "#9aa6b4", 4))
+        + circle(cx, 160, 9, "#3d4a5c")
+    )
+    return (
+        wheel(66) + wheel(190)
+        + path("M66 160 L112 100 L164 100 L190 160 M112 100 L134 160 L190 160",
+               stroke="#e74c3c", sw=9)
+        + path("M104 92 L126 92", stroke="#3d4a5c", sw=9)
+        + path("M164 100 L172 74 L196 74", stroke="#3d4a5c", sw=9)
+        + ellipse(112, 86, 24, 10, "#3d4a5c", rot=(-8, 112, 86))
+    )
+
+
+@drawing("train")
+def train():
+    return (
+        circle(84, 116, 13, "#cfd8e3", opacity=0.9)
+        + circle(112, 92, 17, "#cfd8e3", opacity=0.8)
+        + circle(146, 72, 21, "#cfd8e3", opacity=0.7)
+        + rect(36, 128, 184, 68, "#e74c3c", r=14)
+        + rect(120, 82, 92, 52, "#c0392b", r=12)
+        + rect(136, 94, 60, 32, "#bfe6ff", r=6)
+        + rect(56, 100, 30, 32, "#c0392b", r=6)
+        + rect(50, 92, 42, 14, "#8b3a2e", r=6)
+        + circle(74, 202, 24, INK) + circle(74, 202, 10, "#c9ced4")
+        + circle(148, 202, 24, INK) + circle(148, 202, 10, "#c9ced4")
+        + circle(204, 160, 12, "#ffd93d")
+    )
+
+
+@drawing("leaf")
+def leaf():
+    # One leaf, not a sprig: the word is singular in both languages.
+    return (
+        path("M128 222 Q122 186 126 150", stroke="#6b4a24", sw=10)
+        + path("M128 22 C 196 72 202 152 128 216 C 54 152 60 72 128 22 Z", "#4caf50")
+        + path("M128 22 C 196 72 202 152 128 216 Z", "#43a047")
+        + path("M128 34 L128 210", stroke="#2f7a33", sw=6)
+        + path("M128 74 L178 62 M128 112 L190 104 M128 150 L182 152 "
+               "M128 74 L78 62 M128 112 L66 104 M128 150 L74 152",
+               stroke="#2f7a33", sw=5)
     )
 
 

@@ -95,3 +95,14 @@ def ring(cx, cy, r, count, draw, rotation=0.0):
         angle = math.radians(rotation + i * 360.0 / count)
         out.append(draw(cx + r * math.cos(angle), cy + r * math.sin(angle), math.degrees(angle)))
     return "".join(out)
+
+
+def spiral(cx, cy, inner, outer, turns=2.4, steps=90):
+    """Path data for an outward spiral — a snail shell, mostly."""
+    points = []
+    for i in range(steps):
+        t = i / (steps - 1)
+        angle = t * turns * 2 * math.pi
+        r = inner + (outer - inner) * t
+        points.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
+    return "M" + " L".join(f"{_n(x)} {_n(y)}" for x, y in points)

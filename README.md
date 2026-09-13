@@ -12,7 +12,9 @@ the one the word describes; only once they have does the game finally say the
 word. Working it out has to come from reading it, so hearing it is the reward
 rather than the hint.
 
-Ten rounds make a game, and the score goes on the board at the end.
+Ten rounds make a game, and the score goes on the board at the end. There are
+fifty words in each language — animals, food, things around the house, weather —
+and a game never repeats one.
 
 | | |
 |---|---|
@@ -86,7 +88,7 @@ godot --path . tools/tour.tscn -- /tmp/shots play
 
 ## Pictures
 
-The thirty pictures are generated rather than hand-drawn, which is what keeps
+The fifty pictures are generated rather than hand-drawn, which is what keeps
 them looking like one set:
 
 ```bash
