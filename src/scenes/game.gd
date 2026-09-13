@@ -66,7 +66,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if _input_locked or _round == null or _round.phase != RoundState.Phase.TYPING:
 		return
 
-	var character := char(key.unicode)
+	var character := Letters.from_key(key.unicode)
 	if not Letters.is_typable(character):
 		return
 	get_viewport().set_input_as_handled()

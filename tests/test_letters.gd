@@ -42,6 +42,17 @@ func test_letters_are_spoken_without_announcing_the_capital(t: TestHelper) -> vo
 	t.equals(Letters.spoken_form("Ó"), "ó", "and so does O with an accent")
 
 
+func test_keys_without_a_character_produce_nothing(t: TestHelper) -> void:
+	# Arrows, shift and friends report zero. char(0) would make a string
+	# holding a NUL, which Godot logs a Unicode parsing error for.
+	t.equals(Letters.from_key(0), "", "a key with no character gives nothing")
+	t.equals(Letters.from_key(13), "", "enter gives nothing")
+	t.equals(Letters.from_key(27), "", "escape gives nothing")
+	t.equals(Letters.from_key(32), " ", "space still comes through, to be ignored later")
+	t.equals(Letters.from_key(65), "A", "a letter key gives its letter")
+	t.equals(Letters.from_key("ł".unicode_at(0)), "ł", "so does a Polish letter key")
+
+
 func test_letter_keys_are_recognised(t: TestHelper) -> void:
 	t.check(Letters.is_typable("a"), "a letter is a letter key")
 	t.check(Letters.is_typable("Z"), "an uppercase letter is a letter key")

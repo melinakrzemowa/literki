@@ -35,6 +35,17 @@ static func spoken_form(character: String) -> String:
 	return character.to_lower()
 
 
+## Turns a key event's unicode value into a character.
+##
+## Keys that carry no character at all — arrows, shift, the command key —
+## report zero, and char(0) builds a string containing a NUL, which Godot then
+## complains about on every keypress. Those become "" instead.
+static func from_key(unicode: int) -> String:
+	if unicode < 32:
+		return ""
+	return char(unicode)
+
+
 ## True for keys that count as "typing a letter", right or wrong.
 ##
 ## A letter is recognised by having two distinct cases, which holds across
