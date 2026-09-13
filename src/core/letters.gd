@@ -25,6 +25,16 @@ static func matches(typed: String, expected: String) -> bool:
 	return fold(typed) == fold(expected)
 
 
+## What to hand the speech synthesiser for a letter.
+##
+## Lowercase, always: given a single uppercase character the system voices
+## announce the capitalisation — "capital P" in English, "duże P" in Polish —
+## which is three times the audio and not what a child is being asked to hear.
+## The screen still shows uppercase; only the spoken form changes.
+static func spoken_form(character: String) -> String:
+	return character.to_lower()
+
+
 ## True for keys that count as "typing a letter", right or wrong.
 ##
 ## A letter is recognised by having two distinct cases, which holds across

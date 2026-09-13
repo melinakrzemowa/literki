@@ -50,7 +50,7 @@ func can_speak(language: String) -> bool:
 ## Speaks one letter by name. Returns an utterance id, or -1 if nothing was
 ## spoken — callers use the id to wait for [signal utterance_finished].
 func speak_letter(character: String, language: String) -> int:
-	return _speak(character.to_upper(), language, LETTER_RATE, true)
+	return _speak(Letters.spoken_form(character), language, LETTER_RATE, true)
 
 
 func speak_word(word: String, language: String) -> int:

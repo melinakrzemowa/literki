@@ -34,6 +34,14 @@ func test_empty_input_never_matches(t: TestHelper) -> void:
 	t.check(not Letters.matches("a", ""), "nothing expected is not a match")
 
 
+func test_letters_are_spoken_without_announcing_the_capital(t: TestHelper) -> void:
+	# An uppercase character makes the system voices say "capital P" / "duże P".
+	t.equals(Letters.spoken_form("P"), "p", "an uppercase letter is spoken lowercase")
+	t.equals(Letters.spoken_form("p"), "p", "a lowercase letter is left alone")
+	t.equals(Letters.spoken_form("Ł"), "ł", "a Polish letter keeps its diacritic")
+	t.equals(Letters.spoken_form("Ó"), "ó", "and so does O with an accent")
+
+
 func test_letter_keys_are_recognised(t: TestHelper) -> void:
 	t.check(Letters.is_typable("a"), "a letter is a letter key")
 	t.check(Letters.is_typable("Z"), "an uppercase letter is a letter key")
