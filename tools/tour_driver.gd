@@ -11,6 +11,7 @@ extends Node
 var _out := "/tmp/literki-shots"
 var _mode := "shots"
 var _index := 0
+var _started := 0
 var _failures: Array[String] = []
 
 
@@ -22,13 +23,23 @@ func _ready() -> void:
 		_mode = args[1]
 	DirAccess.make_dir_recursive_absolute(_out)
 	await get_tree().process_frame
-	_watchdog(90.0 if _mode == "shots" else 420.0)
+	# Screenshots come from RenderingServer.frame_post_draw, which stops firing
+	# if the window ends up behind something and the compositor throttles it.
+	# A tour that draws nothing waits forever, so keep the window in front.
+	DisplayServer.window_move_to_foreground()
+
+	# A net for a genuine hang, not a time budget: a whole screenshot tour runs
+	# in about fifteen seconds.
+	_watchdog(120.0 if _mode == "shots" else 600.0)
+	_started = Time.get_ticks_msec()
 
 	if _mode == "play":
 		await _playthrough()
 	else:
 		await _run()
 		print("TOUR: done, %d screenshots in %s" % [_index, _out])
+
+	print("TOUR: took %.1fs" % ((Time.get_ticks_msec() - _started) / 1000.0))
 
 	for failure in _failures:
 		printerr("TOUR FAIL: ", failure)
@@ -40,7 +51,7 @@ func _ready() -> void:
 func _watchdog(seconds: float) -> void:
 	var timer := get_tree().create_timer(seconds)
 	timer.timeout.connect(func():
-		printerr("TOUR: watchdog fired after %d screenshots" % _index)
+		printerr("TOUR: watchdog fired after %ds and %d screenshots" % [int(seconds), _index])
 		get_tree().quit(2)
 	)
 
@@ -59,11 +70,17 @@ func _playthrough() -> void:
 
 	var expected := 0
 	var seen := {}
+	# The finished round stays in place while the word is read out, so waiting
+	# for "a round exists" would keep finding the previous one.
+	var previous: RoundState = null
 
 	for index in GameSession.ROUNDS_PER_GAME:
-		if not await _wait_until(func(): return game._round != null, 12.0):
+		if not await _wait_until(
+			func(): return game._round != null and game._round != previous, 20.0
+		):
 			_check(false, "round %d never started" % (index + 1))
 			return
+		previous = game._round
 
 		var word: String = game._round.word
 		_check(not seen.has(word), "round %d word %s is not a repeat" % [index + 1, word])
@@ -96,8 +113,10 @@ func _playthrough() -> void:
 			"score is %d after round %d, expected %d"
 				% [game._session.total_score(), index + 1, expected]
 		)
-		await _wait(1.5)
+		await _wait(0.3)
 
+	if not await _wait_until(func(): return game._round == null, 20.0):
+		_check(false, "the game ended after ten rounds")
 	_check(game._round == null, "the game ended after ten rounds")
 	_check(game._session.is_finished(), "the session reports itself finished")
 	print("TOUR: played %d words, final score %d" % [seen.size(), expected])
@@ -210,7 +229,7 @@ func _play_a_round() -> void:
 	await _shot("game-picture-correct")
 
 	# Jump to the end so the game-over card can be seen without ten rounds.
-	await _wait(1.2)
+	await _wait(2.5)
 	game._session.round_number = GameSession.ROUNDS_PER_GAME
 	game._finish()
 	await _wait(0.6)

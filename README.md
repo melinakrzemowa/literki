@@ -7,8 +7,10 @@ A typing and reading game for young children, in **English** and **Polish**.
 Each round shows one big letter at a time. The child types it, hears it spoken
 aloud, and watches it fly up to join the word forming along the top of the
 screen. When the word is finished the game spells it back, letter by letter —
-but never says the word itself. Then three pictures appear, and the child picks
-the one the word describes. Reading it is the point.
+but withholds the word itself. Then three pictures appear, and the child picks
+the one the word describes; only once they have does the game finally say the
+word. Working it out has to come from reading it, so hearing it is the reward
+rather than the hint.
 
 Ten rounds make a game, and the score goes on the board at the end.
 

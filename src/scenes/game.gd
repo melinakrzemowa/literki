@@ -10,8 +10,10 @@ const HIGHSCORES := "res://src/scenes/highscores.tscn"
 
 const LETTER_FLIGHT := 0.40   ## How long a letter takes to fly to the top row.
 const SPELL_GAP := 0.16       ## Breath between letters in the read-back.
-const SPEECH_TIMEOUT := 1.8   ## Never wait longer than this on the synthesiser.
-const ROUND_BREAK := 1.0      ## Pause to enjoy having got it right.
+const SPEECH_TIMEOUT := 1.8   ## Never wait longer than this on one letter.
+const WORD_TIMEOUT := 3.0     ## Or on a whole word, which takes longer to say.
+const CHEER_PAUSE := 0.35     ## Beat after the right picture, before the word.
+const ROUND_BREAK := 0.6      ## And after the word, before the next round.
 
 const BIG_LETTER_SIZE := Vector2(236, 280)
 
@@ -26,6 +28,9 @@ var _input_locked := true
 ## Set when the player leaves. Animations and round changes are full of awaits
 ## that would otherwise resume inside a scene that is already on its way out.
 var _leaving := false
+
+## Set once the game-over card is up, so a late await cannot raise a second one.
+var _finished := false
 
 var _round_label: Label
 var _score_label: Label
@@ -163,7 +168,20 @@ func _pick(index: int) -> void:
 	_cards[index].accept()
 	_prompt.text = Texts.get_text("well_done", _language)
 	_input_locked = true
+
+	# Now the word gets said out loud. It was withheld through the typing and
+	# the read-back so that choosing the picture had to come from reading it;
+	# once that is done, hearing it is the reward and ties the two together.
+	await get_tree().create_timer(CHEER_PAUSE).timeout
+	if _leaving or _round == null:
+		return
+	await _wait_for_speech(Speech.speak_word(_round.word, _language), WORD_TIMEOUT)
+	if _leaving or _round == null:
+		return
+
 	await get_tree().create_timer(ROUND_BREAK).timeout
+	if _leaving or _round == null:
+		return
 	_next_round()
 
 
@@ -213,7 +231,7 @@ func _reject_letter() -> void:
 
 ## Waits for a spoken letter to finish, but never longer than SPEECH_TIMEOUT —
 ## a machine with no voices must not stall the read-back.
-func _wait_for_speech(utterance: int) -> void:
+func _wait_for_speech(utterance: int, limit: float = SPEECH_TIMEOUT) -> void:
 	if utterance < 0:
 		await get_tree().create_timer(0.45).timeout
 		return
@@ -224,7 +242,7 @@ func _wait_for_speech(utterance: int) -> void:
 			finished[0] = true
 	Speech.utterance_finished.connect(listener)
 
-	var deadline := Time.get_ticks_msec() + int(SPEECH_TIMEOUT * 1000.0)
+	var deadline := Time.get_ticks_msec() + int(limit * 1000.0)
 	while not finished[0] and Time.get_ticks_msec() < deadline:
 		await get_tree().process_frame
 	Speech.utterance_finished.disconnect(listener)
@@ -406,6 +424,9 @@ func _hide_letter() -> void:
 # ------------------------------------------------------------- end of game ---
 
 func _finish() -> void:
+	if _finished:
+		return
+	_finished = true
 	_input_locked = true
 	_round = null
 	_hide_letter()
