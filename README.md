@@ -62,6 +62,27 @@ Or call the binary inside the bundle directly:
 /Applications/Godot.app/Contents/MacOS/Godot --path .
 ```
 
+## Playing it on the web
+
+Live at **https://literki.melinakrzemowa.pl**, deployed from `main` by
+[.github/workflows/deploy.yml](.github/workflows/deploy.yml): the workflow runs
+the tests, exports the web build, ships an nginx image to GHCR and pulls it on
+the Air. Host wiring (tunnel route, compose file, port 4012) lives in
+[melinakrzemowa/air-infra](https://github.com/melinakrzemowa/air-infra).
+
+The export has thread support switched off deliberately. Godot's threaded web
+build needs `Cross-Origin-Opener-Policy` and `Cross-Origin-Embedder-Policy` on
+every response; without threads it is ordinary static files behind any web
+server. The 36 MB wasm is gzipped at image build time, which takes it to about
+9 MB over the wire.
+
+To try a web build locally:
+
+```bash
+godot --headless --export-release "Web" build/web/index.html
+python3 -m http.server 8099 -d build/web
+```
+
 ## Tests
 
 Game rules live in plain classes with no nodes in them, so a whole ten-round
