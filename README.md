@@ -116,6 +116,12 @@ The tests will tell you if you missed one.
   checks speech has to run windowed (which is what `tools/tour.tscn` does).
 - Which voice each language uses is decided in `Speech.PREFERRED_VOICES`, by
   display name, falling back to whatever the system lists first.
+- The system voices already read Polish diacritics by their proper names — Zosia
+  says "eł" for Ł and "cie" for Ć, not "el" and "ce". There is nothing to fix
+  here, and `tools/check_voices.sh` proves it without anyone having to listen:
+  it synthesises each letter beside the name it should be read as and compares
+  the audio. Do not use duration for this — "el" and "eł" take exactly the same
+  time to say, which makes it look like the voice ignores the diacritic.
 - Polish words are shown and spoken with their proper spelling, but the plain
   ASCII letter is accepted too — a child on a US keyboard can type `slonce` for
   `SŁOŃCE` and still see and hear it spelled correctly.
