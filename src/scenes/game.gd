@@ -23,6 +23,10 @@ var _round: RoundState = null
 ## so a child hammering the keyboard cannot lose points to the animation.
 var _input_locked := true
 
+## Set when the player leaves. Animations and round changes are full of awaits
+## that would otherwise resume inside a scene that is already on its way out.
+var _leaving := false
+
 var _round_label: Label
 var _score_label: Label
 var _score_panel: PanelContainer
@@ -77,9 +81,13 @@ func _type(character: String) -> void:
 	_input_locked = true
 	Speech.speak_letter(result["letter"], _language)
 	await _fly_to_row(result["letter"], _tiles[_round.typed_count - 1])
+	if _leaving or _round == null:
+		return
 
 	if result["word_complete"]:
 		await _spell_back()
+		if _leaving or _round == null:
+			return
 		_show_pictures()
 	else:
 		_show_letter(_round.current_letter())
@@ -89,6 +97,8 @@ func _type(character: String) -> void:
 # ------------------------------------------------------------------ round ---
 
 func _next_round() -> void:
+	if _leaving:
+		return
 	_round = _session.start_next_round()
 	if _round == null:
 		_finish()
@@ -113,7 +123,7 @@ func _spell_back() -> void:
 	await get_tree().create_timer(0.3).timeout
 
 	for i in _tiles.size():
-		if not is_instance_valid(_tiles[i]):
+		if _leaving or _round == null or not is_instance_valid(_tiles[i]):
 			return
 		_tiles[i].set_highlighted(true)
 		var utterance := Speech.speak_letter(_round.word[i], _language)
@@ -166,6 +176,8 @@ func _fly_to_row(character: String, tile: LetterTile) -> void:
 	_big_label.add_theme_color_override("font_color", UiKit.CORRECT)
 	UiKit.pop(_big_letter, 0.14, 0.16)
 	await get_tree().create_timer(0.14).timeout
+	if _leaving or not is_instance_valid(tile):
+		return
 
 	var ghost := _letter_label(character, UiKit.CORRECT, 186)
 	ghost.size = _big_letter.size
@@ -464,6 +476,9 @@ func _finish() -> void:
 
 
 func _leave() -> void:
+	if _leaving:
+		return
+	_leaving = true
 	_input_locked = true
 	_round = null
 	Speech.stop()

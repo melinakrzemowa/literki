@@ -9,28 +9,131 @@ class_name TourDriver
 extends Node
 
 var _out := "/tmp/literki-shots"
+var _mode := "shots"
 var _index := 0
+var _failures: Array[String] = []
 
 
 func _ready() -> void:
 	var args := OS.get_cmdline_user_args()
 	if args.size() > 0:
 		_out = args[0]
+	if args.size() > 1:
+		_mode = args[1]
 	DirAccess.make_dir_recursive_absolute(_out)
 	await get_tree().process_frame
-	_watchdog()
-	await _run()
-	print("TOUR: done, %d screenshots in %s" % [_index, _out])
-	get_tree().quit()
+	_watchdog(90.0 if _mode == "shots" else 420.0)
+
+	if _mode == "play":
+		await _playthrough()
+	else:
+		await _run()
+		print("TOUR: done, %d screenshots in %s" % [_index, _out])
+
+	for failure in _failures:
+		printerr("TOUR FAIL: ", failure)
+	print("TOUR RESULT: ", "PASS" if _failures.is_empty() else "FAIL")
+	get_tree().quit(0 if _failures.is_empty() else 1)
 
 
 ## A stuck tour must never hold a window open forever.
-func _watchdog() -> void:
-	var timer := get_tree().create_timer(90.0)
+func _watchdog(seconds: float) -> void:
+	var timer := get_tree().create_timer(seconds)
 	timer.timeout.connect(func():
 		printerr("TOUR: watchdog fired after %d screenshots" % _index)
 		get_tree().quit(2)
 	)
+
+
+func _check(condition: bool, message: String) -> void:
+	if not condition:
+		_failures.append(message)
+
+
+## Plays all ten rounds through the real screen, typing Polish words with plain
+## ASCII so the diacritic fallback is exercised end to end.
+func _playthrough() -> void:
+	Scores.clear()
+	Settings.set_language(WordBank.POLISH)
+	var game := await _goto("res://src/scenes/game.tscn")
+
+	var expected := 0
+	var seen := {}
+
+	for index in GameSession.ROUNDS_PER_GAME:
+		if not await _wait_until(func(): return game._round != null, 12.0):
+			_check(false, "round %d never started" % (index + 1))
+			return
+
+		var word: String = game._round.word
+		_check(not seen.has(word), "round %d word %s is not a repeat" % [index + 1, word])
+		seen[word] = true
+		_check(
+			game._session.round_number == index + 1,
+			"round counter reads %d on round %d" % [game._session.round_number, index + 1]
+		)
+
+		for i in word.length():
+			await _press(Letters.fold(word[i]))
+			await _wait(0.6)
+		expected += word.length()
+		_check(
+			game._round.typed_word() == word,
+			"%s was fully typed with plain letters" % word
+		)
+
+		if not await _wait_until(
+			func(): return game._round != null \
+				and game._round.phase == RoundState.Phase.PICKING, 30.0
+		):
+			_check(false, "pictures never appeared in round %d" % (index + 1))
+			return
+
+		game._pick(game._round.correct_index())
+		expected += Scoring.picture_points(0)
+		_check(
+			game._session.total_score() == expected,
+			"score is %d after round %d, expected %d"
+				% [game._session.total_score(), index + 1, expected]
+		)
+		await _wait(1.5)
+
+	_check(game._round == null, "the game ended after ten rounds")
+	_check(game._session.is_finished(), "the session reports itself finished")
+	print("TOUR: played %d words, final score %d" % [seen.size(), expected])
+
+	for character in "Basia":
+		await _press(character)
+	await _wait(0.4)
+	await _shot("playthrough-game-over")
+
+	var event := InputEventKey.new()
+	event.pressed = true
+	event.keycode = KEY_ENTER
+	Input.parse_input_event(event)
+	await _wait(1.2)
+
+	_check(Scores.entries.size() == 1, "one score was saved")
+	if Scores.entries.size() == 1:
+		_check(Scores.entries[0]["name"] == "Basia", "the typed name was saved")
+		_check(Scores.entries[0]["score"] == expected, "the final score was saved")
+		_check(Scores.entries[0]["language"] == WordBank.POLISH, "the language was saved")
+	_check(
+		get_tree().current_scene.scene_file_path.ends_with("highscores.tscn"),
+		"saving goes to the score board"
+	)
+	await _shot("playthrough-board")
+
+
+## Polls until the condition holds; false if it never did.
+func _wait_until(condition: Callable, limit: float) -> bool:
+	var waited := 0.0
+	while waited < limit:
+		if condition.call():
+			return true
+		await _wait(0.1)
+		waited += 0.1
+	return false
 
 
 func _run() -> void:
