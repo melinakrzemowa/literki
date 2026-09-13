@@ -2,6 +2,10 @@
 ## (macOS Speech, Windows SAPI, speech-dispatcher on Linux), so the game ships
 ## no recorded audio and picks up whatever voices the machine already has.
 ##
+## A few letters the voices read badly are shipped as small recordings instead
+## (see tools/make_letter_sounds.py); those take precedence, and everything else
+## goes to the synthesiser.
+##
 ## Everything here degrades quietly: on a machine with no speech support the
 ## game still plays, just silently.
 extends Node
@@ -23,12 +27,23 @@ const WORD_RATE := 0.95
 const VOLUME := 60
 const PITCH := 1.1  ## Slightly bright, which reads as friendly to children.
 
+## Recordings that stand in for the synthesiser, as speech/<language>/<letter>.wav.
+const CLIP_DIR := "res://assets/speech"
+const CLIP_VOLUME_DB := 0.0  ## Nudge if the clips sit louder or quieter than the voice.
+
 var _available := false
 var _voice_by_language := {}
 var _next_id := 1
+var _player: AudioStreamPlayer
+var _clip_utterance := -1
 
 
 func _ready() -> void:
+	_player = AudioStreamPlayer.new()
+	_player.volume_db = CLIP_VOLUME_DB
+	_player.finished.connect(_on_clip_finished)
+	add_child(_player)
+
 	_available = DisplayServer.has_feature(DisplayServer.FEATURE_TEXT_TO_SPEECH)
 	if not _available:
 		push_warning("Text-to-speech is unavailable; Literki will play silently.")
@@ -47,10 +62,50 @@ func can_speak(language: String) -> bool:
 	return _available and not str(_voice_by_language.get(language, "")).is_empty()
 
 
-## Speaks one letter by name. Returns an utterance id, or -1 if nothing was
-## spoken — callers use the id to wait for [signal utterance_finished].
+## Speaks one letter, from a recording where we have one and the synthesiser
+## otherwise. Returns an utterance id, or -1 if nothing was spoken — callers use
+## the id to wait for [signal utterance_finished].
 func speak_letter(character: String, language: String) -> int:
+	var clip := _clip_for(character, language)
+	if clip != null:
+		return _play_clip(clip)
 	return _speak(Letters.spoken_form(character), language, LETTER_RATE, true)
+
+
+## True when this letter is spoken from a recording rather than synthesised.
+func has_clip(character: String, language: String) -> bool:
+	return _clip_for(character, language) != null
+
+
+func _clip_for(character: String, language: String) -> AudioStream:
+	var path := "%s/%s/%s.wav" % [CLIP_DIR, language, Letters.spoken_form(character)]
+	if not ResourceLoader.exists(path):
+		return null
+	return load(path) as AudioStream
+
+
+func _play_clip(stream: AudioStream) -> int:
+	stop()
+	var id := _next_id
+	_next_id += 1
+	_clip_utterance = id
+	_player.stream = stream
+	_player.play()
+	return id
+
+
+## Stopping does not fire the player's own finished signal, so anything waiting
+## on this utterance is released here instead of sitting out its timeout.
+func _release_clip() -> void:
+	if _clip_utterance < 0:
+		return
+	var id := _clip_utterance
+	_clip_utterance = -1
+	utterance_finished.emit.call_deferred(id)
+
+
+func _on_clip_finished() -> void:
+	_release_clip()
 
 
 func speak_word(word: String, language: String) -> int:
@@ -60,6 +115,9 @@ func speak_word(word: String, language: String) -> int:
 func stop() -> void:
 	if _available:
 		DisplayServer.tts_stop()
+	if _player != null and _player.playing:
+		_player.stop()
+		_release_clip()
 
 
 func _speak(text: String, language: String, rate: float, interrupt: bool) -> int:

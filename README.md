@@ -116,6 +116,15 @@ The tests will tell you if you missed one.
   checks speech has to run windowed (which is what `tools/tour.tscn` does).
 - Which voice each language uses is decided in `Speech.PREFERRED_VOICES`, by
   display name, falling back to whatever the system lists first.
+- A few letters are played from a small recording instead of being synthesised,
+  because the voice reads them badly and will not be talked out of it. Polish Y
+  is the one: Zosia says its name, "igrek", which does not contain the sound the
+  letter makes, and every dodge fails because she spells out any isolated letter
+  string — "yy" comes out as "igrek igrek", byte for byte. So the vowel is cut
+  out of her saying "ty", which keeps the voice identical to every other letter.
+  `tools/make_letter_sounds.py` regenerates these; adding one is a line in
+  `SOURCES`. Anything with a clip in `assets/speech/<language>/` wins over the
+  synthesiser.
 - The system voices already read Polish diacritics by their proper names — Zosia
   says "eł" for Ł and "cie" for Ć, not "el" and "ce". There is nothing to fix
   here, and `tools/check_voices.sh` proves it without anyone having to listen:

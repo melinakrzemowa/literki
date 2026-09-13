@@ -138,6 +138,7 @@ func _wait_until(condition: Callable, limit: float) -> bool:
 
 func _run() -> void:
 	print("TOUR: speech en=%s pl=%s" % [Speech.can_speak("en"), Speech.can_speak("pl")])
+	print("TOUR: pl 'Y' from a recording = %s" % Speech.has_clip("Y", WordBank.POLISH))
 
 	Scores.clear()
 	Settings.set_language(WordBank.ENGLISH)
