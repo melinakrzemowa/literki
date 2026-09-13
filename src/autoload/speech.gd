@@ -59,7 +59,7 @@ func _ready() -> void:
 
 ## True when this machine can actually say something in [param language].
 func can_speak(language: String) -> bool:
-	return _available and not str(_voice_by_language.get(language, "")).is_empty()
+	return _available and not _voice_for(language).is_empty()
 
 
 ## Speaks one letter, from a recording where we have one and the synthesiser
@@ -121,21 +121,38 @@ func stop() -> void:
 
 
 func _speak(text: String, language: String, rate: float, interrupt: bool) -> int:
-	if text.strip_edges().is_empty() or not can_speak(language):
+	var voice := _voice_for(language)
+	if text.strip_edges().is_empty() or not _available or voice.is_empty():
 		return -1
-	var voice: String = _voice_by_language[language]
 	var id := _next_id
 	_next_id += 1
 	DisplayServer.tts_speak(text, voice, VOLUME, PITCH, rate, id, interrupt)
 	return id
 
 
+## Finds the voice for a language, remembering it once found.
+##
+## Resolved on use rather than once at startup: browsers fill in the voice list
+## asynchronously, so on the web it is still empty when the game boots. Looking
+## it up once there meant the game came up permanently silent.
+func _voice_for(language: String) -> String:
+	if not _available:
+		return ""
+	var cached := str(_voice_by_language.get(language, ""))
+	if not cached.is_empty():
+		return cached
+
+	var ids := DisplayServer.tts_get_voices_for_language(language)
+	if ids.is_empty():
+		return ""
+	var best := _best_voice(language, ids)
+	_voice_by_language[language] = best
+	return best
+
+
 func _resolve_voices() -> void:
 	for language in WordBank.LANGUAGES:
-		var ids := DisplayServer.tts_get_voices_for_language(language)
-		if ids.is_empty():
-			continue
-		_voice_by_language[language] = _best_voice(language, ids)
+		_voice_for(language)
 
 
 ## Matches preferred voices by display name, since voice ids differ per OS.

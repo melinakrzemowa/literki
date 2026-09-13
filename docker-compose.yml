@@ -1,0 +1,7 @@
+services:
+  literki:
+    image: ghcr.io/melinakrzemowa/literki:${VERSION:-latest}
+    container_name: literki
+    restart: unless-stopped
+    ports:
+      - "4012:80"

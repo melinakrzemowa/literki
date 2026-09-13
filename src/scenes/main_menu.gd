@@ -43,9 +43,12 @@ func _ready() -> void:
 	language_button.pressed.connect(func(): _go(LANGUAGE_SELECT))
 	footer.add_child(language_button)
 
-	var quit_button := UiKit.ghost_button(Texts.get_text("quit", language), Vector2(120, 74))
-	quit_button.pressed.connect(func(): get_tree().quit())
-	footer.add_child(quit_button)
+	# Quitting means nothing in a browser tab, so the button only exists where
+	# there is something to quit to.
+	if not OS.has_feature("web"):
+		var quit_button := UiKit.ghost_button(Texts.get_text("quit", language), Vector2(120, 74))
+		quit_button.pressed.connect(func(): get_tree().quit())
+		footer.add_child(quit_button)
 
 
 func _add(parent: Control, text: String, colour: Color, action: Callable) -> void:
