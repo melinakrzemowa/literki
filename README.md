@@ -98,6 +98,11 @@ The tests will tell you if you missed one.
 
 ## Notes
 
+- Speech needs a display server. `--headless` reports zero voices, so
+  `tools/preview_images.gd` and the unit tests run headless, but anything that
+  checks speech has to run windowed (which is what `tools/tour.tscn` does).
+- Which voice each language uses is decided in `Speech.PREFERRED_VOICES`, by
+  display name, falling back to whatever the system lists first.
 - Polish words are shown and spoken with their proper spelling, but the plain
   ASCII letter is accepted too — a child on a US keyboard can type `slonce` for
   `SŁOŃCE` and still see and hear it spelled correctly.
