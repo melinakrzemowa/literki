@@ -12,6 +12,7 @@ const SUITES := {
 	"RoundState": preload("res://tests/test_round_state.gd"),
 	"GameSession": preload("res://tests/test_game_session.gd"),
 	"HighscoreTable": preload("res://tests/test_highscore_table.gd"),
+	"Texts": preload("res://tests/test_texts.gd"),
 }
 
 
