@@ -45,6 +45,19 @@ support the game still plays, just silently.
 godot --path .
 ```
 
+The macOS build ships as an app bundle with nothing on `PATH`, so `godot` is
+not a command until you make it one:
+
+```bash
+ln -sf /Applications/Godot.app/Contents/MacOS/Godot ~/.local/bin/godot
+```
+
+Or call the binary inside the bundle directly:
+
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --path .
+```
+
 ## Tests
 
 Game rules live in plain classes with no nodes in them, so a whole ten-round
