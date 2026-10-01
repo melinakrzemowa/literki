@@ -134,6 +134,9 @@ jobs:
           set -e
           cd "$DEPLOY_DIR"
           docker pull ghcr.io/melinakrzemowa/literki:$VERSION
+          # Refresh the local :latest tag too. compose falls back to :latest when VERSION is unset,
+          # and docker only updates the tag it pulled, so this keeps that fallback from starting a stale image.
+          docker pull ghcr.io/melinakrzemowa/literki:latest
           VERSION=$VERSION docker compose up -d
           docker image prune -f
           EOF
