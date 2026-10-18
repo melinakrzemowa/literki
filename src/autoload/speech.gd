@@ -1,12 +1,13 @@
-## Speaks letters aloud through the operating system's own speech synthesiser
-## (macOS Speech, Windows SAPI, speech-dispatcher on Linux), so the game ships
-## no recorded audio and picks up whatever voices the machine already has.
+## Says letters and words aloud.
 ##
-## A few letters the voices read badly are shipped as small recordings instead
-## (see tools/make_letter_sounds.py); those take precedence, and everything else
-## goes to the synthesiser.
+## Everything the game says is a recording, made with ElevenLabs by
+## tools/record_speech.py: a native speaker per language, the same on every
+## machine and in every browser. A letter or word without one — a word just
+## added to WordBank, say — falls back to the operating system's synthesiser
+## (macOS Speech, Windows SAPI, speech-dispatcher on Linux, speechSynthesis in
+## a browser), so nothing goes unsaid while it waits to be recorded.
 ##
-## Everything here degrades quietly: on a machine with no speech support the
+## Everything here degrades quietly: with neither a recording nor a voice, the
 ## game still plays, just silently.
 extends Node
 
@@ -27,9 +28,10 @@ const WORD_RATE := 0.95
 const VOLUME := 60
 const PITCH := 1.1  ## Slightly bright, which reads as friendly to children.
 
-## Recordings that stand in for the synthesiser, as speech/<language>/<letter>.wav.
+## Recordings, as <language>/letters/<Letters.clip_name>.wav and
+## <language>/words/<concept id>.wav.
 const CLIP_DIR := "res://assets/speech"
-const CLIP_VOLUME_DB := 0.0  ## Nudge if the clips sit louder or quieter than the voice.
+const CLIP_VOLUME_DB := 0.0
 
 var _available := false
 var _voice_by_language := {}
@@ -46,7 +48,7 @@ func _ready() -> void:
 
 	_available = DisplayServer.has_feature(DisplayServer.FEATURE_TEXT_TO_SPEECH)
 	if not _available:
-		push_warning("Text-to-speech is unavailable; Literki will play silently.")
+		push_warning("Text-to-speech is unavailable; only recorded speech will play.")
 		return
 	_resolve_voices()
 	DisplayServer.tts_set_utterance_callback(
@@ -57,28 +59,39 @@ func _ready() -> void:
 	)
 
 
-## True when this machine can actually say something in [param language].
+## True when the synthesiser — the fallback for anything not recorded — can say
+## something in [param language] on this machine.
 func can_speak(language: String) -> bool:
 	return _available and not _voice_for(language).is_empty()
 
 
-## Speaks one letter, from a recording where we have one and the synthesiser
-## otherwise. Returns an utterance id, or -1 if nothing was spoken — callers use
-## the id to wait for [signal utterance_finished].
+## Speaks one letter, from its recording where there is one and the
+## synthesiser otherwise. Returns an utterance id, or -1 if nothing was spoken —
+## callers use the id to wait for [signal utterance_finished].
 func speak_letter(character: String, language: String) -> int:
-	var clip := _clip_for(character, language)
+	var clip := _load_clip(letter_clip_path(character, language))
 	if clip != null:
 		return _play_clip(clip)
 	return _speak(Letters.spoken_form(character), language, LETTER_RATE, true)
 
 
-## True when this letter is spoken from a recording rather than synthesised.
-func has_clip(character: String, language: String) -> bool:
-	return _clip_for(character, language) != null
+## Speaks the word for a concept, the same way.
+func speak_word(concept_id: String, language: String) -> int:
+	var clip := _load_clip(word_clip_path(concept_id, language))
+	if clip != null:
+		return _play_clip(clip)
+	return _speak(WordBank.word_for(concept_id, language), language, WORD_RATE, true)
 
 
-func _clip_for(character: String, language: String) -> AudioStream:
-	var path := "%s/%s/%s.wav" % [CLIP_DIR, language, Letters.spoken_form(character)]
+static func letter_clip_path(character: String, language: String) -> String:
+	return "%s/%s/letters/%s.wav" % [CLIP_DIR, language, Letters.clip_name(character)]
+
+
+static func word_clip_path(concept_id: String, language: String) -> String:
+	return "%s/%s/words/%s.wav" % [CLIP_DIR, language, concept_id]
+
+
+func _load_clip(path: String) -> AudioStream:
 	if not ResourceLoader.exists(path):
 		return null
 	return load(path) as AudioStream
@@ -106,10 +119,6 @@ func _release_clip() -> void:
 
 func _on_clip_finished() -> void:
 	_release_clip()
-
-
-func speak_word(word: String, language: String) -> int:
-	return _speak(word, language, WORD_RATE, true)
 
 
 func stop() -> void:

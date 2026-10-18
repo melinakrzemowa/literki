@@ -1,0 +1,792 @@
+{
+ "en/letters/a": {
+  "text": "A",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/b": {
+  "text": "B",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/c": {
+  "text": "C",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/d": {
+  "text": "D",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/e": {
+  "text": "E",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/f": {
+  "text": "F",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/g": {
+  "text": "G",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/h": {
+  "text": "H",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/i": {
+  "text": "I",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/j": {
+  "text": "J",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/k": {
+  "text": "K",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/l": {
+  "text": "L",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/m": {
+  "text": "M",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/n": {
+  "text": "N",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/o": {
+  "text": "O",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/p": {
+  "text": "P",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/q": {
+  "text": "Q",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/r": {
+  "text": "R",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/s": {
+  "text": "S",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/t": {
+  "text": "T",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/u": {
+  "text": "U",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/v": {
+  "text": "V",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/w": {
+  "text": "W",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/x": {
+  "text": "X",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/y": {
+  "text": "Why.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/letters/z": {
+  "text": "Z",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/apple": {
+  "text": "apple.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/ball": {
+  "text": "ball.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/banana": {
+  "text": "banana.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/bed": {
+  "text": "bed.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/bike": {
+  "text": "bike.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/bird": {
+  "text": "bird.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/boat": {
+  "text": "boat.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/book": {
+  "text": "book.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/bread": {
+  "text": "bread.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/cake": {
+  "text": "cake.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/car": {
+  "text": "car.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/carrot": {
+  "text": "carrot.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/cat": {
+  "text": "cat.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/chair": {
+  "text": "chair.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/cheese": {
+  "text": "cheese.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/clock": {
+  "text": "clock.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/cloud": {
+  "text": "cloud.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/cow": {
+  "text": "cow.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/dog": {
+  "text": "dog.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/door": {
+  "text": "door.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/duck": {
+  "text": "duck.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/egg": {
+  "text": "egg.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/fish": {
+  "text": "fish.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/flower": {
+  "text": "flower.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/fox": {
+  "text": "fox.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/frog": {
+  "text": "frog.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/hat": {
+  "text": "hat.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/heart": {
+  "text": "heart.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/horse": {
+  "text": "horse.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/house": {
+  "text": "house.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/key": {
+  "text": "key.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/lamp": {
+  "text": "lamp.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/leaf": {
+  "text": "leaf.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/lemon": {
+  "text": "lemon.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/lion": {
+  "text": "lion.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/milk": {
+  "text": "milk.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/moon": {
+  "text": "moon.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/mouse": {
+  "text": "mouse.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/pear": {
+  "text": "pear.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/pig": {
+  "text": "pig.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/rabbit": {
+  "text": "rabbit.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/sheep": {
+  "text": "sheep.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/shoe": {
+  "text": "shoe.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/snail": {
+  "text": "snail.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/star": {
+  "text": "star.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/sun": {
+  "text": "sun.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/table": {
+  "text": "table.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/train": {
+  "text": "train.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/tree": {
+  "text": "tree.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "en/words/turtle": {
+  "text": "turtle.",
+  "voice": "AqDlTqiSASf1NfLfcjjM",
+  "model": "eleven_v4"
+ },
+ "pl/letters/a": {
+  "text": "a",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/a-ogonek": {
+  "text": "ą",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/b": {
+  "text": "be",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/c": {
+  "text": "ce",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/c-acute": {
+  "text": "cie",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/d": {
+  "text": "de",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/e": {
+  "text": "e",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/e-ogonek": {
+  "text": "ę",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/f": {
+  "text": "ef",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/g": {
+  "text": "gie",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/h": {
+  "text": "ha",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/i": {
+  "text": "i",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/j": {
+  "text": "jot",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/k": {
+  "text": "ka",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/l": {
+  "text": "el",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/l-stroke": {
+  "text": "eł",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/m": {
+  "text": "em",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/n": {
+  "text": "en",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/n-acute": {
+  "text": "eń",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/o": {
+  "text": "o",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/o-acute": {
+  "text": "u",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/p": {
+  "text": "pe",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/r": {
+  "text": "er",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/s": {
+  "text": "es",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/s-acute": {
+  "text": "eś",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/t": {
+  "text": "te",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/u": {
+  "text": "u",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/w": {
+  "text": "wu",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/y": {
+  "text": "Yyy.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/z": {
+  "text": "zet",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/z-acute": {
+  "text": "ziet",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/letters/z-dot": {
+  "text": "żet",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/apple": {
+  "text": "jabłko.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/ball": {
+  "text": "piłka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/banana": {
+  "text": "banan.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/bed": {
+  "text": "łóżko.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/bike": {
+  "text": "rower.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/bird": {
+  "text": "ptak.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/boat": {
+  "text": "łódka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/book": {
+  "text": "książka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/bread": {
+  "text": "chleb.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/cake": {
+  "text": "tort.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/car": {
+  "text": "auto.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/carrot": {
+  "text": "marchewka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/cat": {
+  "text": "kot.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/chair": {
+  "text": "krzesło.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/cheese": {
+  "text": "ser.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/clock": {
+  "text": "zegar.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/cloud": {
+  "text": "chmura.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/cow": {
+  "text": "krowa.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/dog": {
+  "text": "pies.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/door": {
+  "text": "drzwi.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/duck": {
+  "text": "kaczka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/egg": {
+  "text": "jajko.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/fish": {
+  "text": "ryba.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/flower": {
+  "text": "kwiat.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/fox": {
+  "text": "lis.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/frog": {
+  "text": "żaba.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/hat": {
+  "text": "czapka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/heart": {
+  "text": "serce.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/horse": {
+  "text": "koń.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/house": {
+  "text": "dom.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/key": {
+  "text": "klucz.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/lamp": {
+  "text": "lampa.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/leaf": {
+  "text": "liść.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/lemon": {
+  "text": "cytryna.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/lion": {
+  "text": "lew.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/milk": {
+  "text": "mleko.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/moon": {
+  "text": "księżyc.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/mouse": {
+  "text": "mysz.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/pear": {
+  "text": "gruszka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/pig": {
+  "text": "świnka.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/rabbit": {
+  "text": "królik.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/sheep": {
+  "text": "owca.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/shoe": {
+  "text": "but.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/snail": {
+  "text": "ślimak.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/star": {
+  "text": "gwiazda.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/sun": {
+  "text": "słońce.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/table": {
+  "text": "stół.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/train": {
+  "text": "pociąg.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/tree": {
+  "text": "drzewo.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ },
+ "pl/words/turtle": {
+  "text": "żółw.",
+  "voice": "d4Z5Fvjohw3zxGpV8XUV",
+  "model": "eleven_multilingual_v2"
+ }
+}

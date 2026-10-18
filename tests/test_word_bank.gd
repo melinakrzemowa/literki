@@ -23,11 +23,13 @@ func test_every_concept_has_a_picture_on_disk(t: TestHelper) -> void:
 		t.check(ResourceLoader.exists(path), "%s has a picture at %s" % [concept["id"], path])
 
 
+## MARCHEWKA is the longest, and the word Polish children actually use. Nine
+## tiles take 1048 px of the 1200 px the word row has at the smallest window.
 func test_words_are_short_enough_for_a_child(t: TestHelper) -> void:
 	for concept in WordBank.CONCEPTS:
 		for language in WordBank.LANGUAGES:
 			var word := str(concept[language])
-			t.check(word.length() <= 7, "%s/%s is at most 7 letters" % [concept["id"], language])
+			t.check(word.length() <= 9, "%s/%s is at most 9 letters" % [concept["id"], language])
 
 
 func test_draw_round_returns_the_answer_among_distinct_choices(t: TestHelper) -> void:

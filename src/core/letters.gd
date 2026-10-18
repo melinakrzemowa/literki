@@ -35,6 +35,22 @@ static func spoken_form(character: String) -> String:
 	return character.to_lower()
 
 
+## ASCII names for the recordings of letters with a diacritic, after their
+## Unicode names, so nothing depends on how a file system or an export stores
+## a path like "ł.wav". tools/record_speech.py names the files the same way.
+const CLIP_NAMES := {
+	"ą": "a-ogonek", "ć": "c-acute", "ę": "e-ogonek", "ł": "l-stroke",
+	"ń": "n-acute", "ó": "o-acute", "ś": "s-acute", "ź": "z-acute",
+	"ż": "z-dot",
+}
+
+
+## The file name, without extension, of a letter's recording.
+static func clip_name(character: String) -> String:
+	var lowered := spoken_form(character)
+	return CLIP_NAMES.get(lowered, lowered)
+
+
 ## Turns a key event's unicode value into a character.
 ##
 ## Keys that carry no character at all — arrows, shift, the command key —

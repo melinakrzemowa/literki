@@ -175,7 +175,7 @@ func _pick(index: int) -> void:
 	await get_tree().create_timer(CHEER_PAUSE).timeout
 	if _leaving or _round == null:
 		return
-	await _wait_for_speech(Speech.speak_word(_round.word, _language), WORD_TIMEOUT)
+	await _wait_for_speech(Speech.speak_word(_round.concept_id, _language), WORD_TIMEOUT)
 	if _leaving or _round == null:
 		return
 
