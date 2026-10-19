@@ -10,8 +10,7 @@ so adding a word to WordBank and re-running this costs one short request.
 
     python3 tools/record_speech.py pl/letters/y en/words/dog   # redo these
     python3 tools/record_speech.py --force                     # redo all
-    python3 tools/record_speech.py --check                     # proof-listen
-    python3 tools/record_speech.py --check --retake 4          # and fix
+    uv run --with praat-parselmouth python3 tools/record_speech.py --check --retake 6
 
 Clips land in assets/speech/<language>/letters/<name>.wav and
 assets/speech/<language>/words/<concept id>.wav, which is where the game looks
@@ -25,9 +24,11 @@ carrier phrase ("Litera …", "The word …") to ElevenLabs' own transcriber and
 lists the ones it did not hear as intended. The carrier matters: on its own a
 lone vowel or a three-letter word is too little for the transcriber to go on.
 With --retake it records those again until one is heard right, since a voice
-reads the same text a little differently every time.
+reads the same text a little differently every time. A lone vowel is measured
+instead (see VOWELS), because the transcriber writes "E" for an e and a y
+alike; that takes Praat, which is why --check runs under uv with parselmouth.
 
-Stdlib only, like the other tools here.
+Stdlib only, like the other tools here, apart from Praat for --check.
 """
 
 import argparse
@@ -37,6 +38,7 @@ import json
 import os
 import pathlib
 import re
+import statistics
 import sys
 import time
 import unicodedata
@@ -94,17 +96,45 @@ FADE_OUT = 0.03
 ## exactly like U, and "u kreskowane" is a spelling lesson rather than a sound.
 ## The Y is written "Yyy.", the way Polish spells a hesitation: a lone "y"
 ## gets read as the Spanish word, which is "i", or set the voice babbling.
+## E is a capital with a full stop, which lands on the right vowel more often
+## than the bare letter; VOWELS below checks that it did.
 LETTERS = {
     "en": {c: c.upper() for c in "abcdefghijklmnopqrstuvwxyz"} | {"y": "Why."},
     "pl": {
         "a": "a", "ą": "ą", "b": "be", "c": "ce", "ć": "cie", "d": "de",
-        "e": "e", "ę": "ę", "f": "ef", "g": "gie", "h": "ha", "i": "i",
+        "e": "E.", "ę": "ę", "f": "ef", "g": "gie", "h": "ha", "i": "i",
         "j": "jot", "k": "ka", "l": "el", "ł": "eł", "m": "em", "n": "en",
         "ń": "eń", "o": "o", "ó": "u", "p": "pe", "r": "er", "s": "es",
         "ś": "eś", "t": "te", "u": "u", "w": "wu", "y": "Yyy.", "z": "zet",
         "ź": "ziet", "ż": "żet",
     },
 }
+
+## Where each Polish vowel has to land, as (F1 low, F1 high, F2 low, F2 high)
+## in Hz, the first two resonances of the mouth that make one vowel sound like
+## itself. The voice says a lone vowel differently every take: the same "e"
+## came out as a proper e, an i, or a y, and the transcriber wrote "E" for all
+## three. Measuring is what tells them apart. Maria's e inside the letter names
+## (be, ce, el…) sits at F1 575–750, F2 1830–2290; the rest follow the same
+## map of Polish vowels for a woman's voice.
+##
+## Ą and Ę are not measured. Said alone they end in a nasal glide, close to
+## "oł" and "eł", which pulls their formants toward u. Takes that measured
+## like a clean o and e sounded wrong to a Polish listener, and the ones that
+## measured "off" were right, so the transcriber judges them instead.
+VOWELS = {
+    "pl": {
+        "a": (750, 1100, 1300, 1800),
+        "e": (550, 800, 1750, 2300),
+        "i": (200, 450, 2400, 3200),
+        "o": (450, 750, 800, 1250),
+        "ó": (250, 450, 500, 1000),
+        "u": (250, 450, 500, 1000),
+        "y": (300, 500, 1600, 2100),
+    },
+}
+MAX_VALLEY_DB = 10  ## A deeper dip mid-vowel means it was said twice.
+MIN_VOWEL = 0.2     ## Seconds of voice; shorter sounds clipped next to the rest.
 
 ## ASCII file names for letters with a diacritic, after their Unicode names,
 ## so nothing depends on how a file system or an export stores "ł.wav".
@@ -147,7 +177,8 @@ def clips() -> dict:
         for letter, text in letters.items():
             name = f"{language}/letters/{LETTER_FILE_NAMES.get(letter, letter)}"
             wanted[name] = {"language": language, "kind": "letters", "text": text,
-                            "expect": [letter, text]}
+                            "expect": [letter, text],
+                            "vowel": VOWELS.get(language, {}).get(letter)}
     for concept in read_words():
         for language in LETTERS:
             word = concept[language]
@@ -278,8 +309,9 @@ def plain(text: str) -> str:
     return re.sub(r"[^\w ]|[\d_]", "", text).strip()
 
 
-## What the transcriber writes for a clip that is right: homophones, and a
-## lone ę, a nasal e it can only spell as the letter it sounds most like.
+## What the transcriber writes for a clip that is right: homophones, ń spelled
+## the Spanish way, and a lone ę, a nasal e it can only spell as the letter it
+## sounds most like.
 SOUNDS_LIKE = {
     "en": {"pear": ["pair"], "sun": ["son"]},
     "pl": {"but": ["butt"], "ń": ["ñ"], "ę": ["em", "en", "m", "n"]},
@@ -299,7 +331,11 @@ class Listener:
         self.gap = array.array("h", [0]) * int(0.15 * RATE)
 
     def hear(self, name: str, clip: dict, samples: array.array):
-        """What the transcriber heard, and whether that is what was meant."""
+        """What was heard, and whether that is what was meant.
+
+        A lone vowel is judged by measuring it instead: the transcriber cannot
+        tell e from y. It only has to hear one short sound, not a babble.
+        """
         audio = self.carriers[(clip["kind"], clip["language"])] + self.gap + samples
         probe = self.scratch / (name.replace("/", "_") + ".wav")
         write(audio, probe)
@@ -307,9 +343,55 @@ class Listener:
         carrier = plain(CARRIERS[clip["kind"]][clip["language"]])
         rest = plain(heard)
         rest = rest[len(carrier):].strip() if rest.startswith(carrier) else rest
+
+        if clip.get("vowel"):
+            measured = measure_vowel(samples)
+            if measured is None:
+                return f"{heard!r}, no voice in it", False
+            f1, f2, valley, voiced = measured
+            lo1, hi1, lo2, hi2 = clip["vowel"]
+            ok = (lo1 <= f1 <= hi1 and lo2 <= f2 <= hi2 and valley < MAX_VALLEY_DB
+                  and MIN_VOWEL <= voiced and len(samples) / RATE < 0.9
+                  and len(rest.split()) <= 1)
+            return f"{heard!r}, F1 {f1} F2 {f2}, dip {valley} dB, {voiced:.2f}s voiced", ok
+
         meant = {plain(e) for e in clip["expect"]}
         meant |= set(SOUNDS_LIKE.get(clip["language"], {}).get(plain(clip["expect"][0]), []))
-        return heard, rest in meant
+        return repr(heard), rest in meant
+
+
+def measure_vowel(samples: array.array):
+    """F1 and F2 over the middle of the voiced part, the deepest dip in
+    loudness inside it, and how long it lasts. Uses Praat, through
+    parselmouth; see the docstring."""
+    import parselmouth
+
+    sound = parselmouth.Sound([s / 32768 for s in samples], sampling_frequency=RATE)
+    pitch = sound.to_pitch(time_step=0.01, pitch_floor=120, pitch_ceiling=500)
+    voiced = [t for t, f in zip(pitch.xs(), pitch.selected_array["frequency"]) if f > 0]
+    if len(voiced) < 3:
+        return None
+    start, end = voiced[0], voiced[-1]
+
+    formant = sound.to_formant_burg(time_step=0.005, max_number_of_formants=5,
+                                    maximum_formant=5500)
+    f1s, f2s = [], []
+    for i in range(41):
+        t = start + (end - start) * (0.3 + 0.4 * i / 40)
+        f1, f2 = formant.get_value_at_time(1, t), formant.get_value_at_time(2, t)
+        if f1 == f1 and f2 == f2:  # Praat says NaN where it finds none
+            f1s.append(f1)
+            f2s.append(f2)
+    if not f1s:
+        return None
+
+    intensity = sound.to_intensity(minimum_pitch=120, time_step=0.01)
+    levels = [v for t, v in zip(intensity.xs(), intensity.values[0]) if start <= t <= end]
+    top = max(levels)
+    loud = [i for i, v in enumerate(levels) if v > top - 3]
+    valley = top - min(levels[loud[0]:loud[-1] + 1])
+    return (round(statistics.median(f1s)), round(statistics.median(f2s)),
+            round(valley, 1), end - start)
 
 
 def check(listener: Listener, wanted: dict, names: list) -> list:
@@ -322,7 +404,7 @@ def check(listener: Listener, wanted: dict, names: list) -> list:
         for name, heard, ok in pool.map(one, names):
             if not ok:
                 doubtful.append(name)
-            print(f"{'ok ' if ok else '?? '} {name:24} {wanted[name]['text']!r:12} heard {heard!r}")
+            print(f"{'ok ' if ok else '?? '} {name:24} {wanted[name]['text']!r:12} heard {heard}")
     print(f"{len(names) - len(doubtful)} heard as intended, {len(doubtful)} misheard.")
     return doubtful
 
@@ -338,8 +420,8 @@ def retake(listener: Listener, wanted: dict, names: list, takes: int) -> list:
             heard, ok = listener.hear(name, clip, samples)
             if ok:
                 write(samples, OUT / f"{name}.wav")
-                return name, f"take {take} heard as {heard!r}", True
-        return name, f"still misheard after {takes} takes, last as {heard!r}", False
+                return name, f"take {take} heard as {heard}", True
+        return name, f"still misheard after {takes} takes, last as {heard}", False
 
     stubborn = []
     with concurrent.futures.ThreadPoolExecutor(CONCURRENCY) as pool:
@@ -380,6 +462,12 @@ def main() -> int:
             raise SystemExit(f"Not recorded yet: {', '.join(missing)}")
         scratch = pathlib.Path(os.environ.get("TMPDIR", "/tmp")) / "literki-speech-check"
         scratch.mkdir(parents=True, exist_ok=True)
+        if any(wanted[n].get("vowel") for n in names):
+            try:
+                import parselmouth  # noqa: F401
+            except ImportError:
+                raise SystemExit("Checking vowels needs Praat: run this with "
+                                 "`uv run --with praat-parselmouth python3 ...`.")
         listener = Listener(key, scratch)
         doubtful = check(listener, wanted, names)
         if doubtful and args.retake:

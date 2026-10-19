@@ -136,7 +136,7 @@ That records only what is missing or out of date, so after adding a word it
 costs one short request. Then let it listen to its own work:
 
 ```bash
-ELEVENLABS_API_KEY=... python3 tools/record_speech.py --check --retake 6
+ELEVENLABS_API_KEY=... uv run --with praat-parselmouth python3 tools/record_speech.py --check --retake 6
 ```
 
 `--check` plays each clip to ElevenLabs' transcriber after a carrier phrase
@@ -144,6 +144,16 @@ ELEVENLABS_API_KEY=... python3 tools/record_speech.py --check --retake 6
 `--retake` records those again until one comes back right. A voice reads the
 same text a little differently every time, so a handful of clips in each run
 need a second take. Whatever is still flagged after that, listen to yourself.
+
+A lone vowel is measured rather than transcribed. The voice says the same "e"
+as a proper e in one take and something close to a y in the next, and the
+transcriber writes "E" for both; it took someone listening to catch it. So
+`--check` uses Praat to find each Polish vowel's first two formants and
+rejects a take that lands outside where that vowel belongs (`VOWELS` in the
+tool), breaks in two, or is too short to hear properly. Ą and Ę are the
+exception: alone they glide into a nasal "ł", which no simple formant range
+captures, and the takes that measured cleanest were the ones that sounded
+wrong.
 
 How each letter is read is set in `LETTERS` in the tool. Polish letters are
 read by their names ("be", "ce", "eł"), except Y, which is its sound, and Ó,
